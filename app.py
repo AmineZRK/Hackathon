@@ -24,19 +24,18 @@ app = Flask(__name__)
 
 #main page
 
-@app.route("/")
+@app.route("/projet")
 
-def index():
+def projet():
     saagie = SaagieApi(url_saagie="https://demo-workspace.a4.saagie.io/",
                    id_platform="2",
                    user="ESTIAM_G04_thierno-sadou.barry",
                    password="Hackathong4",
                    realm="demo")
-    project=saagie.projects.list()
-
+    project=saagie.jobs.list_for_project(project_id="aad54160-3a4b-485d-896f-0e04bd96bcb7", instances_limit=2)
+    
+  
     return project
-
-   
 
 #contact page
 
