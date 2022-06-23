@@ -1,11 +1,12 @@
 import React,{useState, useEffect} from 'react'
-
+import axios from 'axios'
 function App() {
 
   const [data,setData]= useState([{}])
+  const [info,setInfo]= useState([{}])
 
   useEffect(()=>{
-    fetch("/projet").then(
+    fetch("/project").then(
       res=>res.json()
     ).then(
       data=>{
@@ -13,14 +14,42 @@ function App() {
         console.log(data)
       }
     )
-  },[])
+  },[]);
+
+ 
+  const handleClick = (id) => {
+    fetch(`/members/${id}/`,{
+      headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+       }
+
+    })
+            .then(
+              res=>res.json()
+            ).then(
+              info=>{
+                setInfo(info)
+                console.log(info)
+              }
+            )
+            
+  }
   return (
     <div>
-      {data.jobs.map(job =>(
-        <p key={job.id}>{job.id} : {job.name}</p>
-      ))}
+      {(typeof data.projects === 'undefined')?(
+        <h1>Loading...</h1>
+      ) :(
+        data.projects.map(projet =>(
+          <a href='#' onClick={() => handleClick(projet.id)}>
+            <p key={projet.name}>{projet.id} : {projet.name}</p>
+          </a>
+        ))
+      )}
     </div>
   )
-}
+     
+  }
+ 
 
 export default App
